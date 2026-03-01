@@ -1,0 +1,19 @@
+{
+    "version": 8,
+    "configurePresets": [
+        {
+            "name": "Clang_21.1.8_Linux",
+            "displayName": "Clang_21.1.8-Linux",
+            "description": "Using compilers for Linux",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+                "CMAKE_C_COMPILER": "/usr/bin/clang-21",
+                "CMAKE_CXX_COMPILER": "/usr/bin/clang++-21",
+                "CMAKE_CXX_FLAGS": "-std=c++23 -Wall -Wextra --stdlib=libc++",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        }
+    ]
+}
