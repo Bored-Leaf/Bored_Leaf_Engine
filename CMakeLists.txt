@@ -7,6 +7,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/Builds)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/Builds)
 
-add_library(Bored_Leaf_Engine SHARED Bored_Leaf_Engine.cpp)
-
+add_subdirectory(${CMAKE_SOURCE_DIR}/Engine)
+add_subdirectory(${CMAKE_SOURCE_DIR}/GameDemo)

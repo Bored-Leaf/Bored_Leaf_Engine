@@ -1,0 +1,5 @@
+add_library(Bored_Leaf_EngineCore SHARED Bored_Leaf_Engine.cpp)
+
+target_include_directories(Bored_Leaf_EngineCore
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+)
