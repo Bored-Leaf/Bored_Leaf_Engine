@@ -1,1 +1,0 @@
-seperate thread or job queued. Which ever is more effficient.

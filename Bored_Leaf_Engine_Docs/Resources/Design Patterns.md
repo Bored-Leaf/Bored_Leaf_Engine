@@ -1,1 +1,0 @@
-https://gameprogrammingpatterns.com/contents.html
