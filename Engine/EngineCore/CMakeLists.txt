@@ -1,4 +1,4 @@
-add_library(Bored_Leaf_EngineCore SHARED Bored_Leaf_Engine.cpp)
+add_library(Bored_Leaf_EngineCore SHARED BLE_EngineCore.cpp)
 
 target_include_directories(Bored_Leaf_EngineCore
     PUBLIC

@@ -1,6 +1,6 @@
 #include <print>
 
-#include "BLE_LOGGER.h"
+#include "BLE_Logger.h"
 
 void print_message(const std::string &message) {
     // TODO:: Wrap escape sequencies to make more readable

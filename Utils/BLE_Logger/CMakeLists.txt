@@ -1,4 +1,4 @@
-add_library(BLE_Logger STATIC BLE_LOGGER.cpp)
+add_library(BLE_Logger STATIC BLE_Logger.cpp)
 
 target_include_directories(BLE_Logger
     PUBLIC
