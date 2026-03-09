@@ -5,7 +5,10 @@
 int main() {
     std::print("Hello, from GameDemo\n");
 
-    say_hello();
+    EngineCore engine{};
+
+    engine.initialise();
+    engine.shutdown();
 
     return 1;
 }

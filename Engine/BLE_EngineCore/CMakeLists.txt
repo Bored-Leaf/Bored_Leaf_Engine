@@ -5,4 +5,4 @@ target_include_directories(Bored_Leaf_EngineCore
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-target_link_libraries(Bored_Leaf_EngineCore PRIVATE BLE_Logger)
+target_link_libraries(Bored_Leaf_EngineCore PRIVATE Bored_Leaf_Logger)
