@@ -6,3 +6,8 @@ target_include_directories(Bored_Leaf_EngineCore
 )
 
 target_link_libraries(Bored_Leaf_EngineCore PRIVATE Bored_Leaf_Logger)
+
+target_compile_definitions(Bored_Leaf_EngineCore PRIVATE BLE_BUILD_DLL)
+target_compile_options(Bored_Leaf_EngineCore PRIVATE
+$<$<NOT:$<BOOL:${WIN32}>>:-fvisibility=hidden>
+)
