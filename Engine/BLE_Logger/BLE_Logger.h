@@ -2,9 +2,6 @@
 
 #include <string>
 
-class BLE_Logger {
-public:
-    BLE_Logger();
-
-    void print_message(const std::string &message);
-};
+namespace BLE::LOGGER {
+    void printStatusMessage(const std::string &message);
+}
