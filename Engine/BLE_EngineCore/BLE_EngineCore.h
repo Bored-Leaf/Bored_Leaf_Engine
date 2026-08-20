@@ -12,6 +12,8 @@
 
 #include <memory>
 
+// NEXT: Start doxygen
+// @internal for not public exposed API
 class EngineCore {
 public:
     BLE_API EngineCore();

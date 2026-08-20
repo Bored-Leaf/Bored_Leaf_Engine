@@ -10,7 +10,6 @@ EngineCore::~EngineCore() = default;
 
 // Initialises all systems for use
 void EngineCore::initialise() {
-    // TODO: Make Logger a static/global thing so everything has fast access to. log member functions writes to console and log file same time for now, just make simple.
     ble::logger::init();
     ble::logger::log(ble::logger::Level::Status, "EngineCore Initialised");
 }

@@ -3,11 +3,14 @@
 #include <filesystem>
 #include <array>
 #include <string_view>
+#include <format>
+#include <chrono>
 
 #include "BLE_Logger.h"
 
 // Temp solution to quick access functions for logging.
 // TODO: Make a more appropriate design for a logger
+// NEXT: Start doxygen
 namespace ble::logger {
     namespace {
         constexpr std::string_view grey_text{"\033[38;5;8m"};
@@ -21,37 +24,51 @@ namespace ble::logger {
                                                                                               orange_text,
                                                                                               red_text};
 
-        constexpr std::array<std::string, static_cast<size_t>(Level::Count)> tag{"[STATUS]",
-                                                                                 "[WARN]",
-                                                                                 "[Error]",
-                                                                                 "[FATAL]"};
+        constexpr std::array<std::string_view, static_cast<size_t>(Level::Count)> tag{"[STATUS]",
+                                                                                      "[WARN]",
+                                                                                      "[Error]",
+                                                                                      "[FATAL]"};
 
-        std::string getTerminalTag(Level level) {
-            return  std::string(textColours[static_cast<int>(level)]) + tag[static_cast<int>(level)] + std::string(normal_text);
+        std::string_view getStatusTag(Level level) {
+            return tag[static_cast<int>(level)];
         }
 
-        const char* getFileTag(Level level) {
-            return tag[static_cast<int>(level)].data();
+        std::string_view getStatusTagColour(Level level) {
+            return textColours[static_cast<int>(level)];
         }
 
         // will be fixed for more appropriate design for a logger so ignore for now
         std::ofstream logFile;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
-        void setupLogFile() {
-            std::filesystem::path logs{"logs"};
+        std::string getLogFileName() {
+            auto now = std::chrono::system_clock::now();
+            std::time_t t = std::chrono::system_clock::to_time_t(now);
+            std::tm tm{};
+            localtime_r(&t, &tm);
 
-            if (!std::filesystem::exists(logs)) {
-                if (std::filesystem::create_directory(logs)) {
+            std::array<char, 32> buf{};
+            std::strftime(buf.data(), buf.size(), "%Y-%m-%d_%Hh-%Mm-%Ss", &tm);
+
+            return buf.data();
+        }
+
+        void setupLogFile() {
+            std::filesystem::path logsDir{"logs"};
+
+            if (!std::filesystem::exists(logsDir)) {
+                if (std::filesystem::create_directory(logsDir)) {
                     log(Level::Status, "logs directory created in " + std::filesystem::current_path().string());
                 } else {
-                    log(Level::Status, "logs directory couldn't be created!");
+                    log(Level::Warning, "logs directory couldn't be created!");
                 }
             } else {
                 log(Level::Status, "log directory already exists in " + std::filesystem::current_path().string());
             }
 
-            std::filesystem::path logPath{logs / "logFile"};
-            logFile = std::ofstream(logPath, std::ios::out);
+            std::string logFileName{getLogFileName() + ".log"};
+            
+            std::filesystem::path logFilePath{logsDir / logFileName};
+            logFile = std::ofstream(logFilePath, std::ios::out);
         }
     }
 
@@ -60,31 +77,24 @@ namespace ble::logger {
         write(level, message);
     }
 
-    // NEXT: Format with left aligned
     void print(Level level, const std::string &message) {
-        std::println("{} {}", getTerminalTag(level), message);
+        std::println("{}{:<8} >>{} {}", getStatusTagColour(level), getStatusTag(level), normal_text, message);
     }
 
-    // NEXT: use println instead of logFile directly, format with left aligned
     void write(Level level, const std::string &message) {
         if (logFile.is_open()) {
-            std::string statusTag{getFileTag(level)};
-            std::string finalMessage{statusTag + " " + message + '\n'};
+            std::string finalMessage{std::format("{:<8} >> {}\n", getStatusTag(level), message)};
             logFile.write(finalMessage.data(), finalMessage.size());
         }
     }
 
     void init() {
-        log(Level::Status, "Status test");
-        log(Level::Warning, "Warning test");
-        log(Level::Error, "Error test");
-        log(Level::Fatal, "Fatal test");
         setupLogFile();
         log(Level::Status, "Logger initialised");
     }
 
     void shutdown() {
-        logFile.close();
         log(Level::Status, "Logger shutdown");
+        logFile.close();
     }
 }
