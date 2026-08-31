@@ -8,38 +8,84 @@
 
 #include "BLE_Logger.h"
 
-// Temp solution to quick access functions for logging.
-// TODO: Make a more appropriate design for a logger
-// NEXT: Start doxygen
+/**
+ * @file BLE_Logger.cpp.
+ * @brief Internal logging implementation details.
+ */
+
 namespace ble::logger {
     namespace {
-        constexpr std::string_view grey_text{"\033[38;5;8m"};
-        constexpr std::string_view yellow_text{"\033[38;5;220m"};
-        constexpr std::string_view orange_text{"\033[38;5;208m"};
-        constexpr std::string_view red_text{"\033[38;5;196m"};
-        constexpr std::string_view normal_text{"\033[0m"};
+        /** @internal */
+        constexpr std::string_view grey_text{"\033[38;5;8m"};       ///< Used for [STATUS] tag colour.
 
+        /** @internal */
+        constexpr std::string_view yellow_text{"\033[38;5;220m"};   ///< Used for [WARN] tag colour.
+
+        /** @internal */
+        constexpr std::string_view orange_text{"\033[38;5;208m"};   ///< Used for [ERROR] tag colour.
+
+        /** @internal */
+        constexpr std::string_view red_text{"\033[38;5;196m"};      ///< Used for [FATAL] tag colour.
+
+        /** @internal */
+        constexpr std::string_view normal_text{"\033[0m"};          ///< Used for returning terminal colour to default.
+
+        /** 
+         * @internal 
+         * @brief Vector of textColours for indexing.
+         */
         constexpr std::array<std::string_view, static_cast<size_t>(Level::Count)> textColours{grey_text,
                                                                                               yellow_text,
                                                                                               orange_text,
                                                                                               red_text};
 
-        constexpr std::array<std::string_view, static_cast<size_t>(Level::Count)> tag{"[STATUS]",
-                                                                                      "[WARN]",
-                                                                                      "[Error]",
-                                                                                      "[FATAL]"};
+        /**
+         * @internal
+         * @brief Vector of tag strings for indexing.
+         */
+        constexpr std::array<std::string_view, static_cast<size_t>(Level::Count)> tagString{"[STATUS]",
+                                                                                            "[WARN]",
+                                                                                            "[Error]",
+                                                                                            "[FATAL]"};
 
+        /**
+         * @internal
+         * @brief Returns the tag string.
+         * @note Uses @ref tagString for indexing.
+         * 
+         * @param level The category of the log.
+         * @return std::string_view.
+         */
         std::string_view getStatusTag(Level level) {
-            return tag[static_cast<int>(level)];
+            return tagString[static_cast<int>(level)];
         }
 
-        std::string_view getStatusTagColour(Level level) {
+        /**
+         * @internal
+         * @brief Returns the tag colour.
+         * @note Uses @ref textColour for indexing.
+         * 
+         * @param level The category of the log.
+         * @return std::string_view.
+         */
+        std::string_view getTagColour(Level level) {
             return textColours[static_cast<int>(level)];
         }
 
-        // will be fixed for more appropriate design for a logger so ignore for now
+        /**
+         * @internal
+         * @brief File object logs are written to.
+         *
+         * @note File is only visible in source file.
+         */
         std::ofstream logFile;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
+        /**
+         * @brief Returns a string with year, month, date and time.
+         * @note yyyy-mm-dd_hh-mm-ss format.
+         * 
+         * @return std::string.
+         */
         std::string getLogFileName() {
             auto now = std::chrono::system_clock::now();
             std::time_t t = std::chrono::system_clock::to_time_t(now);
@@ -52,6 +98,12 @@ namespace ble::logger {
             return buf.data();
         }
 
+        /**
+         * @brief Creates a log file to write logs to.
+         * 
+         * @note If directory cannot be created then it prints a Warning to terminal only
+         * and the log file will not be created.
+         */
         void setupLogFile() {
             std::filesystem::path logsDir{"logs"};
 
@@ -60,6 +112,7 @@ namespace ble::logger {
                     log(Level::Status, "logs directory created in " + std::filesystem::current_path().string());
                 } else {
                     log(Level::Warning, "logs directory couldn't be created!");
+                    return;
                 }
             } else {
                 log(Level::Status, "log directory already exists in " + std::filesystem::current_path().string());
@@ -73,12 +126,13 @@ namespace ble::logger {
     }
 
     void log(Level level, const std::string &message) {
+        // NEXT: Stop Level::Count from being passed
         print(level, message);
         write(level, message);
     }
 
     void print(Level level, const std::string &message) {
-        std::println("{}{:<8} >>{} {}", getStatusTagColour(level), getStatusTag(level), normal_text, message);
+        std::println("{}{:<8} >>{} {}", getTagColour(level), getStatusTag(level), normal_text, message);
     }
 
     void write(Level level, const std::string &message) {

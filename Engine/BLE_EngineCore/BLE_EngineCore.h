@@ -12,13 +12,24 @@
 
 #include <memory>
 
-// NEXT: Start doxygen
-// @internal for not public exposed API
+/**
+ * @brief Central object of the game engine.
+ * @details Basically the starting point of the game engine that has
+ * restricted access to every system.
+ */
 class EngineCore {
 public:
     BLE_API EngineCore();
     BLE_API ~EngineCore();
+
+    /**
+     * @brief Initialises all systems for use
+     */
     BLE_API void initialise();
+
+    /**
+     * @brief Gracefully shutsdown all systems and their resources
+     */
     BLE_API void shutdown();
 
     // TODO: Register functions only when using dlopen/dlsym
