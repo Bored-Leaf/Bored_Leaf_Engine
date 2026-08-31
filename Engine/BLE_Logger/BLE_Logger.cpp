@@ -127,6 +127,10 @@ namespace ble::logger {
 
     void log(Level level, const std::string &message) {
         // NEXT: Stop Level::Count from being passed
+        if (level == Level::Count) {
+            log(Level::Warning, "Cannot pass Level::Count to log(), Level::Count is only used internally!");
+            return;
+        }
         print(level, message);
         write(level, message);
     }
@@ -145,6 +149,7 @@ namespace ble::logger {
     void init() {
         setupLogFile();
         log(Level::Status, "Logger initialised");
+        log(Level::Count, "test");
     }
 
     void shutdown() {

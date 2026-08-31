@@ -46,6 +46,9 @@ namespace ble::logger {
      * @internal
      * @brief Logs a message with a corresponding category tag.
      * @details calls @ref print and @ref write internally.
+     *
+     * @note Will log a warning log if @ref Level::Count is passed as level
+     * without logging the original message.
      * 
      * @param level The category of the log.
      * @param message The contents of the log.
