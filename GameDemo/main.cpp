@@ -1,7 +1,7 @@
 #include "BLE_EngineCore.h"
 
 int main() {
-    EngineCore engine{};
+    ble::engine_core::EngineCore engine{};
 
     engine.initialise();
 

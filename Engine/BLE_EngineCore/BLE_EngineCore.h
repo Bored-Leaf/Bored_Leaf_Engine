@@ -11,38 +11,43 @@
 #endif
 
 #include <memory>
-
-/**
- * @brief Central object of the game engine.
- * @details Basically the starting point of the game engine that has
- * restricted access to every system.
- */
-class EngineCore {
-public:
-    BLE_API EngineCore();
-    BLE_API ~EngineCore();
-
+namespace ble::engine_core {
     /**
-     * @brief Initialises all systems for use
-     */
-    BLE_API void initialise();
+    * @brief Central object of the game engine.
+    * @details Basically the starting point of the game engine that has
+    * restricted access to every system.
+    */
+    class EngineCore {
+    public:
+        BLE_API EngineCore();
+        BLE_API ~EngineCore();
 
-    /**
-     * @brief Gracefully shutsdown all systems and their resources
-     */
-    BLE_API void shutdown();
+        /**
+        * @brief Initialises all systems for use
+        *
+        * @note very simple for now but when dynamic libary loading is implemented will
+        * be a little more complex
+        */
+        BLE_API void initialise();
 
-    // TODO: Register functions only when using dlopen/dlsym
-private:
+        /**
+        * @brief Gracefully shutsdown all systems and their resources
+        */
+        BLE_API void shutdown();
+
+        // TODO: Register functions only when using dlopen/dlsym
+        // Don't forget have to register functions before initialise.
+    private:
         /**
         * @internal
         * @brief Forward-declared implemenation details (PIMPL idiom).
         */
-    struct Impl;
+        struct Impl;
 
         /**
         * @internal
         * @brief Owning pointer to this instance's private implementation.
         */
-    std::unique_ptr<Impl> impl;
-};
+        std::unique_ptr<Impl> impl;
+    };
+}
