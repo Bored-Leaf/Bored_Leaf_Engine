@@ -41,6 +41,7 @@ namespace ble::engine_core {
         /**
         * @internal
         * @brief Forward-declared implemenation details (PIMPL idiom).
+        * @details Contains members of the engines systems
         */
         struct Impl;
 
