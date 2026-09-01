@@ -34,6 +34,15 @@ public:
 
     // TODO: Register functions only when using dlopen/dlsym
 private:
+        /**
+        * @internal
+        * @brief Forward-declared implemenation details (PIMPL idiom).
+        */
     struct Impl;
+
+        /**
+        * @internal
+        * @brief Owning pointer to this instance's private implementation.
+        */
     std::unique_ptr<Impl> impl;
 };

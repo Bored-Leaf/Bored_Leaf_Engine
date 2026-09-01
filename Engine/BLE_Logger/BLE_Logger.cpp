@@ -63,7 +63,7 @@ namespace ble::logger {
         /**
          * @internal
          * @brief Returns the tag colour.
-         * @note Uses @ref textColour for indexing.
+         * @note Uses @ref textColours for indexing.
          * 
          * @param level The category of the log.
          * @return std::string_view.
@@ -81,6 +81,7 @@ namespace ble::logger {
         std::ofstream logFile;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
         /**
+         * @internal
          * @brief Returns a string with year, month, date and time.
          * @note yyyy-mm-dd_hh-mm-ss format.
          * 
@@ -99,6 +100,7 @@ namespace ble::logger {
         }
 
         /**
+         * @internal
          * @brief Creates a log file to write logs to.
          * 
          * @note If directory cannot be created then it prints a Warning to terminal only
@@ -126,8 +128,7 @@ namespace ble::logger {
     }
 
     void log(Level level, const std::string &message) {
-        // NEXT: Stop Level::Count from being passed
-        if (level == Level::Count) {
+        if (level >= Level::Count) {
             log(Level::Warning, "Cannot pass Level::Count to log(), Level::Count is only used internally!");
             return;
         }
