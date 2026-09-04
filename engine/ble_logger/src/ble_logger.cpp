@@ -50,11 +50,11 @@ namespace ble::logger {
 
         /**
          * @internal
-         * @brief Returns the tag string.
+         * @brief Get the log category tag string.
          * @note Uses @ref tagString for indexing.
          * 
          * @param level The category of the log.
-         * @return std::string_view.
+         * @return A std::string_view of the log category text.
          */
         std::string_view getStatusTag(Level level) {
             return tagString[static_cast<int>(level)];
@@ -62,11 +62,12 @@ namespace ble::logger {
 
         /**
          * @internal
-         * @brief Returns the tag colour.
+         * @brief Get the log category tag colour.
+         * @details Gets the terminal foreground colour for the corresponding log category.
          * @note Uses @ref textColours for indexing.
          * 
          * @param level The category of the log.
-         * @return std::string_view.
+         * @return A std::string_view of the log category colour ANSI escape code.
          */
         std::string_view getTagColour(Level level) {
             return textColours[static_cast<int>(level)];
@@ -82,10 +83,10 @@ namespace ble::logger {
 
         /**
          * @internal
-         * @brief Returns a string with year, month, date and time.
-         * @note yyyy-mm-dd_hh-mm-ss format.
+         * @brief Creates a log file name containing the year, month, day, hours, minutes and seconds
+         * with the following format: yyyy-mm-dd_hh-mm-ss format.
          * 
-         * @return std::string.
+         * @return A std::string of the log file name.
          */
         std::string getLogFileName() {
             auto now = std::chrono::system_clock::now();
