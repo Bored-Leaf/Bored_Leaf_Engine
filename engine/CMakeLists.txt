@@ -1,0 +1,2 @@
+add_subdirectory(ble_logger)
+add_subdirectory(ble_engine_core)

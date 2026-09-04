@@ -1,5 +1,7 @@
-#include "BLE_EngineCore.h"
-#include "BLE_Logger.h"
+#include "ble_engine_core.hpp"
+#include "ble_logger.hpp"
+
+#include "job_scheduler.hpp"
 
 namespace ble::engine_core {
     struct EngineCore::Impl {
