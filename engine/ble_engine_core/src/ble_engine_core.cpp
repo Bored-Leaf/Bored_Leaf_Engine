@@ -1,11 +1,17 @@
+#include "job_scheduler.hpp"
+#include "event_bus.hpp"
+
 #include "ble_engine_core.hpp"
 #include "ble_logger.hpp"
 
-#include "job_scheduler.hpp"
+// NEXT: Make ECS.
+// Wire up job_scheduler/EventBus/ECS don't know 
+// how going to wire them up though just yet.
+// Need to do these before window and input system
 
 namespace ble::engine_core {
     struct EngineCore::Impl {
-        
+
     };
 
     EngineCore::EngineCore() : impl(std::make_unique<Impl>()) { }

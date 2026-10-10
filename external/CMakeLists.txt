@@ -1,1 +1,2 @@
 add_subdirectory(job_scheduler)
+add_subdirectory(event_bus)
