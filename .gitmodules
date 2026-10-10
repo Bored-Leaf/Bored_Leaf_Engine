@@ -1,3 +1,6 @@
 [submodule "external/job_scheduler"]
 	path = external/job_scheduler
 	url = https://github.com/Bored-Leaf/Job-Scheduler.git
+[submodule "external/event_bus"]
+	path = external/event_bus
+	url = https://github.com/Bored-Leaf/Event-Bus.git
